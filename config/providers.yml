@@ -6,6 +6,7 @@ identity:
   - microsoft
   - saml
   - nextcloud
+  - aac
 
 # for providers which provide additional API access
 community:

@@ -10,13 +10,14 @@ import {groupBy} from 'lodash'
 
 export default
   data: ->
-    records: {}
+    records: null
     tasksByRecordKey: {}
 
   mounted: ->
     Records.tasks.remote.fetch('/').then (data) =>
       ids = data['tasks'].map (t) -> t.id
       tasks = Records.tasks.find(ids)
+      @records = {}
       tasks.forEach (t) =>
         recordKey = t.recordType + t.recordId
         if !@records[recordKey]?
@@ -44,7 +45,7 @@ v-main
   v-container.dashboard-page.max-width-1024
     h1.display-1.my-4(tabindex="-1" v-observe-visibility="{callback: titleVisible}" v-t="'tasks.your_tasks'")
 
-    loading(v-if="Object.keys(records).length == 0")
+    loading(v-if="!records")
     template(v-for="(tasks, recordKey) in tasksByRecordKey")
       v-card.mb-3
         v-card-title

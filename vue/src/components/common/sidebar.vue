@@ -75,8 +75,8 @@ export default
         if @$router.history.current.path == "/dashboard" && Session.user().groups().length == 0
           if AppConfig.features.app.subscriptions
             @$router.replace("/try")
-          else
-            @$router.replace("/g/new")
+           else if  AbilityService.canStartGroups()
+             @$router.replace("/g/new")
 
       InboxService.load()
 
@@ -157,7 +157,7 @@ v-navigation-drawer.sidenav-left.lmo-no-print(app v-model="open")
     v-list-item-title(v-t="'tasks.tasks'")
   v-divider
 
-  v-list.sidebar__groups(dense)
+  v-list.sidebar__groups(v-if="organizations.length" dense)
     template(v-for="parentGroup in organizations")
       template(v-if="memberGroups(parentGroup).length")
         v-list-group(v-model="openGroups[parentGroup.id]"  @click="goToGroup(parentGroup)")

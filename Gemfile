@@ -67,6 +67,9 @@ gem 'customerio', :git => 'https://github.com/customerio/customerio-ruby'
 gem 'blazer'
 # gem 'pghero'
 # gem 'pg_query', '>= 0.9.0'
+gem 'rswag'
+gem 'jwt'
+gem 'http'
 
 group :development, :test do
   gem 'listen'

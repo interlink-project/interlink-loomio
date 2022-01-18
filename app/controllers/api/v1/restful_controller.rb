@@ -5,7 +5,9 @@ class API::V1::RestfulController < API::V1::SnorlaxBase
   include ::CurrentUserHelper
   include ::SentryHelper
   include ::PendingActionsHelper
+  include ::TokenHelper
 
+  before_action :validate_token             # TokenHelper
   before_action :handle_pending_actions
   around_action :use_preferred_locale       # LocalesHelper
   before_action :set_paper_trail_whodunnit  # gem 'paper_trail'
