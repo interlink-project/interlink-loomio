@@ -1,10 +1,12 @@
 <script lang="coffee">
 import Records       from '@/shared/services/records'
+import AuthModalMixin  from '@/mixins/auth_modal'
 import Session       from '@/shared/services/session'
 import LmoUrlService from '@/shared/services/lmo_url_service'
 import EventBus      from '@/shared/services/event_bus'
 
 export default
+  mixins: [AuthModalMixin]
   data: ->
     discussion: null
     isDisabled: false
@@ -12,7 +14,10 @@ export default
     user: null
 
   mounted: ->
-    @init()
+    if !Session.isSignedIn()
+      @openAuthModal()
+    else 
+      @init()
 
   watch:
     '$route.query.group_id': 'init'

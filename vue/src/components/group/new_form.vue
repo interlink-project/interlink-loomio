@@ -71,6 +71,9 @@ export default
       @group.save()
       .then (data) =>
         groupKey = data.groups[0].key
+        # Added for Interlink integration: notify Group created
+        if window.parent
+          window.parent.postMessage({code:'asset_created', message: {id: 'g-'+groupKey, type: 'group'}}, '*')
         Flash.success "group_form.messages.group_#{@actionName}"
         Records.groups.findOrFetchById(groupKey, {}, true).then (group) =>
           if !group.parentId && AppConfig.features.app.group_survey

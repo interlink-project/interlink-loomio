@@ -55,6 +55,10 @@ export default
       @discussion.save()
       .then (data) =>
         discussionKey = data.discussions[0].key
+        # Added for Interlink integration: notify Discussion created
+        if actionName=='created' && window.parent
+          window.parent.postMessage({code:'asset_created', message: {id: 'd-'+discussionKey, type: 'discussion'}}, '*')
+
         EventBus.$emit('closeModal')
         Records.discussions.findOrFetchById(discussionKey, {}, true).then (discussion) =>
           Flash.success("discussion_form.messages.#{actionName}")

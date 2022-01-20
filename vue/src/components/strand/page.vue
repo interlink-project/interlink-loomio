@@ -1,11 +1,13 @@
 <script lang="coffee">
 import Records           from '@/shared/services/records'
 import Session           from '@/shared/services/session'
+import AuthModalMixin  from '@/mixins/auth_modal'
 import EventBus          from '@/shared/services/event_bus'
 import AbilityService    from '@/shared/services/ability_service'
 import ThreadLoader      from '@/shared/loaders/thread_loader'
 
 export default
+  mixins: [AuthModalMixin]
   data: ->
     discussion: null
     loader: null
@@ -14,7 +16,11 @@ export default
     discussionFetchError: null
     lastFocus: null
 
-  mounted: -> @init()
+  mounted: -> 
+    if !Session.isSignedIn()
+      @openAuthModal()
+    else 
+      @init()
 
   watch:
     '$route.params.key': 'init'

@@ -2,7 +2,7 @@ class API::V1::AssetsController < API::V1::RestfulController
 
     # redirect to the creation of a new thread
     def instantiator
-        redirect_to get_base_endpoint + '/d/new'
+        redirect_to get_base_endpoint + '/d/new?login_hint=aac'
     end
 
     # redirect to the page of the specified resource (group or thread)
@@ -10,11 +10,11 @@ class API::V1::AssetsController < API::V1::RestfulController
         puts params
         id = params['asset_id']
         if id.starts_with?('g-')
-            group = find_and_authorize_group(id_to_key(id))
-            redirect_to get_base_endpoint + '/g/' + group.handle
+            group = Group.find_by(key: id_to_key(id)).parent_or_self
+            redirect_to get_base_endpoint + '/g/' + group.handle + '?login_hint=aac'
         elsif id.starts_with?('d-')
-            discussion = find_and_authorize_discussion(id_to_key(id))
-            redirect_to get_base_endpoint + '/d/' + discussion.key + '/' + name_to_url(discussion.title)
+            discussion = Discussion.find_by(key: id_to_key(id))
+            redirect_to get_base_endpoint + '/d/' + discussion.key + '/' + name_to_url(discussion.title) + '?login_hint=aac'
         else 
             render json: {error: 'Unknown asset type'}, root: false, status: 422    
         end
@@ -120,7 +120,6 @@ class API::V1::AssetsController < API::V1::RestfulController
     
     def find_and_authorize_group(key)
         group = Group.find_by(key: key).parent_or_self
-        puts current_user.username
         current_user.ability.authorize!(:show, group)
         return group
     end
