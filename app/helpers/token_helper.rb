@@ -2,27 +2,48 @@ module TokenHelper
 
   @@jwks = nil  
   JWKS_URL = "#{ENV['AAC_HOST']}/jwk".freeze  
+  ADMIN_MAIL = 'admin@api'
 
   def validate_token
-    user
-  end
-
-  def user
     associate_identity(decoded_auth_token)
   end
 
-  def existing_user(tokeninfo)
-    @existing_user ||= User.verified.find_by(email: tokeninfo[0]["preferred_username"])
+  def existing_user(email)
+    puts email
+    @existing_user ||= User.verified.find_by(email: email)
   end
 
+  # check token info: if client token, should match the Client ID. In this case becomes an admin user. 
+  # If user token, becomes the user (should exist). 
   def associate_identity(tokeninfo)
     if tokeninfo && !current_user.presence
-        if user = existing_user(tokeninfo)
+        user = nil
+        if is_admin_call(tokeninfo)
+          user = existing_user(ADMIN_MAIL)
+        else 
+          user = existing_user(tokeninfo[0]["preferred_username"])
+        end
         sign_in(user)
         flash[:notice] = t(:'devise.sessions.signed_in')
-        end
+    elsif tokeninfo && is_admin_call(tokeninfo)
+      create_or_read_admin
     end
   end
+
+  def is_admin_call(tokeninfo)
+    tokeninfo[0]['sub'] == ENV['AAC_APP_KEY']
+  end
+
+  def create_or_read_admin
+    user = User.verified.find_by(email: ADMIN_MAIL)
+    if !user
+      user = User.create(name: 'api admin', email: ADMIN_MAIL, email_verified: true, is_admin: true) 
+    end
+    EventBus.broadcast('registration_create', user)
+    sign_in(user)
+    flash[:notice] = t(:'devise.sessions.signed_in')
+  end
+
 
   def decoded_auth_token
     if http_auth_header
@@ -31,17 +52,21 @@ module TokenHelper
   end
 
   def decode(token)
-    JWT.decode(
-        token,
-        nil,
-        true, # Verify the signature of this token
-        algorithms: ["RS256"],
-        iss: "#{ENV['AAC_HOST']}",
-        verify_iss: true,
-        aud: nil,
-        verify_aud: false,
-        jwks: @@jwks || fetch_jwks,
-      )
+    begin 
+      return JWT.decode(
+          token,
+          nil,
+          true, # Verify the signature of this token
+          algorithms: ["RS256"],
+          iss: "#{ENV['AAC_HOST']}",
+          verify_iss: true,
+          aud: nil,
+          verify_aud: false,
+          jwks: @@jwks || fetch_jwks,
+        )
+    rescue
+      return nil
+    end  
   end
 
   def fetch_jwks

@@ -263,6 +263,12 @@ Rails.application.routes.draw do
         get :authorized, on: :collection
       end
 
+      resources :assets, only: [:show, :create, :update, :destroy] do
+        get :instantiator, on: :collection
+        get 'gui', action: :gui
+        get :show, on: :collection
+      end
+
       namespace(:sessions)        { get :unauthorized }
       devise_scope :user do
         resource :sessions, only: [:create, :destroy]
