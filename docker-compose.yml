@@ -1,0 +1,81 @@
+version: '3'
+
+services:
+  app:
+    container_name: loomio-app
+    image: interlinkproject/loomio:latest
+    restart: unless-stopped
+    # expose:
+    #   - 3000
+    ports:
+      - 80:3000
+    env_file: ./env
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+      - REDIS_URL=redis://redis:6379
+    volumes:
+      - ./uploads:/loomio/public/system
+      - ./storage:/loomio/storage
+      - ./files:/loomio/public/files
+      - ./plugins:/loomio/plugins/docker
+      - ./import:/import
+      - ./tmp:/loomio/tmp
+    networks:
+      - main
+    depends_on:
+      - db
+      - redis
+
+  worker:
+    container_name: loomio-worker
+    image: interlinkproject/loomio:latest
+    restart: always
+    networks:
+      - main
+    env_file: ./env
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db/loomio_production
+      - REDIS_URL=redis://redis:6379
+      - TASK=worker
+    volumes:
+      - ./uploads:/loomio/public/system
+      - ./storage:/loomio/storage
+      - ./files:/loomio/public/files
+      - ./plugins:/loomio/plugins/docker
+      - ./tmp:/loomio/tmp
+
+  db:
+    container_name: loomio-db
+    image: postgres:12.2
+    restart: unless-stopped
+    networks:
+      - main
+    volumes:
+      - ./pgdata:/pgdata
+      - ./pgdumps:/pgdumps
+    environment:
+     - POSTGRES_PASSWORD=password
+     - POSTGRES_DB=loomio_production
+     - PGDATA=/pgdata
+      
+  redis:
+    container_name: loomio-redis
+    image: redis:5.0
+    restart: unless-stopped
+    networks:
+      - main
+
+  channels:
+    container_name: loomio-channels
+    image: loomio/loomio_channel_server
+    restart: unless-stopped
+    networks:
+      - main
+    env_file: ./channels_env
+    depends_on:
+      - redis
+    environment:
+      - REDIS_URL=redis://redis:6379
+
+networks:
+  main:

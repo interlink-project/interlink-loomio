@@ -20,6 +20,9 @@ Session.vim
 bin/
 .powenv
 .byebug_history
+pgdata
+env
+channels_env
 
 /client
 public/client
