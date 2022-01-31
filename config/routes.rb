@@ -264,8 +264,11 @@ Rails.application.routes.draw do
       end
 
       resources :assets, only: [:show, :create, :update, :destroy] do
-        get :instantiator, on: :collection
+        get :instantiator, on: :collection, action: :instantiator
+        get :instantiate, on: :collection, action: :instantiator
         get 'gui', action: :gui
+        get 'view', action: :gui
+        get 'edit', action: :gui
         get :show, on: :collection
       end
 
