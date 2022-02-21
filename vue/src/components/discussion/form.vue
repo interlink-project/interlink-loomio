@@ -29,6 +29,7 @@ export default
 
   mounted: ->
     Records.users.fetchGroups()
+    window.parent.postMessage({code: 'initialized'}, '*')
 
     @watchRecords
       collections: ['groups', 'memberships']
