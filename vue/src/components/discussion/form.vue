@@ -29,7 +29,10 @@ export default
 
   mounted: ->
     Records.users.fetchGroups()
-    window.parent.postMessage({code: 'initialized'}, '*')
+    if window.parent
+      window.parent.postMessage({code: 'initialized'}, '*')
+    if window.opener
+      window.opener.postMessage({code: 'initialized'}, '*')
 
     @watchRecords
       collections: ['groups', 'memberships']
@@ -58,7 +61,10 @@ export default
         discussionKey = data.discussions[0].key
         # Added for Interlink integration: notify Discussion created
         if actionName=='created' && window.parent
-          window.parent.postMessage({code:'asset_created', message: {id: 'd-'+discussionKey, type: 'discussion'}}, '*')
+          if window.parent
+            window.parent.postMessage({code:'asset_created', message: {id: 'd-'+discussionKey, type: 'discussion'}}, '*')
+          if window.opener
+            window.opener.postMessage({code:'asset_created', message: {id: 'd-'+discussionKey, type: 'discussion'}}, '*')
 
         EventBus.$emit('closeModal')
         Records.discussions.findOrFetchById(discussionKey, {}, true).then (discussion) =>
