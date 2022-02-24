@@ -29,7 +29,10 @@ class API::V1::AssetsController < API::V1::RestfulController
             render json: group_to_asset(group), status: 200    
         elsif id.starts_with?('d-')
             discussion = find_and_authorize_discussion(id_to_key(id))
-            group = Group.find(discussion.group_id)
+            group = nil
+            if discussion.group_id
+                Group.find(discussion.group_id)
+            end
             render json: discussion_to_asset(discussion, group), status: 200    
         else 
             render json: {error: 'Unknown asset type'}, root: false, status: 422    
@@ -191,7 +194,10 @@ class API::V1::AssetsController < API::V1::RestfulController
     end
     def discussion_to_asset(discussion, group)
         id = get_id(discussion.key, 'd')
-        group_id = get_id(group.key, 'g')
+        group_id = nil
+        if group
+            group_id = get_id(group.key, 'g')
+        end
         { "id": id, "name": discussion.title, "type": "discussion", "parent": group_id, "url": get_endpoint + id }
     end
 
