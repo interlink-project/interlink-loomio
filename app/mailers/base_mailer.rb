@@ -36,11 +36,13 @@ class BaseMailer < ActionMailer::Base
   end
 
   def send_single_mail(locale: , to:, subject_key:, subject_params: {}, subject_prefix: '', **options)
+    puts "sending mail: '#{to}' from: '#{options[:from]}' action: #{action_name} mailer: #{mailer_name}"
     return if (to.end_with?("@example.com")) && (Rails.env.production?)
     I18n.with_locale(first_supported_locale(locale)) do
       mail options.merge(to: to, subject: subject_prefix + I18n.t(subject_key, subject_params))
     end
   rescue Net::SMTPSyntaxError, Net::SMTPFatalError => e
+    puts "SMTP error to: '#{to}' from: '#{options[:from]}' action: #{action_name} mailer: #{mailer_name} error: #{e}"
     raise "SMTP error to: '#{to}' from: '#{options[:from]}' action: #{action_name} mailer: #{mailer_name} error: #{e}"
   end
 end
