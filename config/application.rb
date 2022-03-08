@@ -72,11 +72,11 @@ module Loomio
       config.action_mailer.smtp_settings = {
         address: ENV['SMTP_SERVER'],
         port: ENV['SMTP_PORT'],
-        authentication: ENV['SMTP_AUTH'],
-        user_name: ENV['SMTP_USERNAME'],
-        password: ENV['SMTP_PASSWORD'],
+        #authentication: ENV['SMTP_AUTH'],
+        #user_name: ENV['SMTP_USERNAME'],
+        #password: ENV['SMTP_PASSWORD'],
         domain: ENV['SMTP_DOMAIN'],
-        ssl: ENV['SMTP_USE_SSL'],
+        #ssl: ENV['SMTP_USE_SSL'],
         openssl_verify_mode: ENV.fetch('SMTP_SSL_VERIFY_MODE', 'none') # options: none, peer, client_once, fail_if_no_peer_cert
       }.compact
     else
