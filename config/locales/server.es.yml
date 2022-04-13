@@ -413,6 +413,13 @@ es:
       due_in_count_days: '%{count} días'
   group_mailer:
     resend: 'RECORDATORIO: %{member} está esperando que te unas %{group_name}'
+    destroy_warning:
+      subject: Tu grupo de Loomio está programado para ser eliminado.
+      body: |
+        Your Loomio group: "%{group}" has been scheduled for deletion by %{deletor}.
+        If you do not want your group to be deleted, please reply to this email.
+        If you're sure you want to delete the group, you do not need to do anything.
+        Thank you.
   poll_mailer:
     resend: '%{actor} te está recordando que votes en %{title}'
     common:

@@ -59,7 +59,6 @@ en:
       members: Members
       subgroups: Subgroups
       threads: Threads
-      polls: Polls
       votes: Votes
       comments: Comments
       general: General
@@ -474,10 +473,10 @@ en:
     destroy_warning:
       subject: Your Loomio group is scheduled for deletion.
       body: |
-        Your Loomio group: "%{group}" has been scheduled for deletion by %{deletor}.
-        If you do not want your group to be deleted, please reply to this email.
-        If you're sure you want to delete the group, you do not need to do anything.
-        Thank you.
+        Tu grupo de Loomio: "%{group}" ha sido programado para ser eliminado por %{deletor}.
+         Si no desea que se elimine su grupo, responda a este correo electrónico.
+         Si está seguro de que desea eliminar el grupo, no necesita hacer nada.
+         Gracias.
 
   poll_mailer:
     resend: '%{actor} is reminding you to vote in: %{title}'

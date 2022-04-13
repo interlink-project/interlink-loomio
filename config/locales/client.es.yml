@@ -369,6 +369,7 @@ es:
       loud_explain: Cuando quiera que haya una actividad
       normal_explain: cuando alguien solicita tu atención
       quiet_explain: Sin notificaciones
+
     aria_label: "Formulario para cambiar las notificaciones de correo electrónico"
     loud_label: "Toda la actividad"
     normal_label: "Anuncios"
@@ -637,6 +638,7 @@ es:
     title_label: 'Título'
     title_placeholder: '¿Cuál es el tema que quieres discutir?'
     context_label: 'Contexto'
+    context_placeholder: "Proporcione algo de contexto para esta discusión, para que las personas sepan cómo participar"
     privacy_label: 'Privacidad'
     privacy_public: 'Cualquier persona puede ver los hilos. Solo integrantes pueden participar. '
     privacy_private: 'Los hilos solo serán visibles para integrantes de {{group}}.'
@@ -647,6 +649,7 @@ es:
     send_discussion: Manda hilo
     send_discussion_explain: Invita a gente a participar en el debate
     send_group: Invita a gente a {{name}}
+    send_group_explain: ''
     send_poll: Enviar {{type}}
     send_poll_explain: Invita a gente a participar en el {{type}}
     send_outcome: Enviar resultado
@@ -698,6 +701,7 @@ es:
       no_invitations_remaining: |
           <p>Ha usado todas las {{maxMembers}} invitaciones disponibles para este grupo.</p>
           <p>Si quiere puede, <a href="{{upgradeUrl}}" target="_blank">elegir un abono</a> para continuar colaborando en Loomio.</p>
+      
       invitations_remaining: '{{count}} invitaciones disponibles. <a href="{{upgradeUrl}}" target="_blank">Mejore su abono</a>'
       who_to_invite: ¿A quién te gustaría invitar?
       invitation_message_placeholder: Un mensaje a incluir en el email de invitación. (opcional)
@@ -1085,6 +1089,7 @@ es:
     public_or_private_threads: 'Permitir hilos públicos y privados'
     private_threads: 'Solamente los integrantes pueden ver las discusiones'
     allow_public_threads: 'Permitir hilos públicos en este grupo.'
+    #is_visible_to_parent_members: 'Content is visible to members of {{parentGroupName}}.'
     parent_members_can_see_discussions: 'Miembros de {{parent}} pueden ver los hilos privados'
     parent_members_can_see_discussions_help: 'Permite a los miembros del grupo parental ver pero no participar en hilos y sondeos dentro de este grupo'
     members_can_announce: 'Los miembros pueden notificar a cualquiera en el grupo'
@@ -1298,6 +1303,7 @@ es:
     sunday: Domingo
     every_day: Todos los días
     every_second_day: Cada dos días
+    never: Off
     header: Ajustes de notificación
     account_deactivated: Tu cuenta ha sido desactivada. Ya nunca recibirás más emails.
     deactivate_header: Detén todos los emails para siempre
@@ -2105,6 +2111,7 @@ es:
     enter_your_password: "Introduce tu contraseña para continuar"
     check_spam_folder: Si no te llega el email pronto consulta la carpeta de correo spam.
     sign_up_helptext: Porfavor completa este formulario para crear una cuenta de usuario
+    # i_accept: "I accept the <a href='{{termsUrl}}' target='_blank' @click.stop>Terms of service</a> and <a href='{{privacyUrl}}' target='_blank'>Privacy policy</a>": "Loomio newsletter"
     i_accept_all: "Acepto el {{termsLink}} y {{privacyLink}}"
     newsletter_label: "Quiero recibir el {{link}}"
     name_placeholder: Su nombre
