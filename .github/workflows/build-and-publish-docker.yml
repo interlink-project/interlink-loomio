@@ -4,11 +4,10 @@ on:
 
   workflow_dispatch:
 
-  tags:
-    - '*'
-
-
   push:
+    tags:
+      - '*'
+
     branches:
       - master
 
