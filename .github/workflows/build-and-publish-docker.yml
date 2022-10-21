@@ -1,7 +1,13 @@
 name: build-and-publish-docker
 
 on:
+
+  workflow_dispatch:
+
   push:
+    tags:
+      - '*'
+
     branches:
       - master
 
@@ -9,6 +15,9 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y%m%d')"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up Docker Buildx
@@ -25,7 +34,9 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: interlinkproject/interlinker-loomio:latest
+          tags: |
+            interlinkproject/interlinker-loomio:${{ github.ref_name }}
+            interlinkproject/interlinker-loomio:${{ github.ref_name }}.${{ steps.date.outputs.date }}
           cache-from: type=registry,ref=interlinkproject/interlinker-loomio:buildcache
           cache-to: type=registry,ref=interlinkproject/interlinker-loomio:buildcache,mode=max
       - name: Trigger Dev Deployment
