@@ -459,7 +459,7 @@ it:
       vote_now: Vota ora
       verify_stance_for_unverified_user: "Grazie per aver votato in %{title}. Verifica il tuo indirizzo email, così potremo inviarti i risultati quando saranno pronti."
       verify_stance_for_verified_user: "Sembra che tu abbia votato in %{title}. Se sei stato tu, clicca sul link sottostante per confermare il tuo voto."
-      you_have_until: Hai tempo fino al %{quando} per partecipare.
+      you_have_until: Hai tempo fino al %{when} per partecipare.
       people_have_voted: "%{num} persone hanno votato (%{pct}%)"
 
     subject:

@@ -154,3 +154,9 @@ A PostgreSQL shell to inspect the database:
 ```sh
 docker exec -ti loomio-db su - postgres -c 'psql loomio_production'
 ```
+
+## Run locally 
+
+```
+bundle exec rails s
+```
